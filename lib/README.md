@@ -1,4 +1,28 @@
-# React Library CRA Project
+# React Utils
+This library contains miscellaneous utilities for ReactJS development.
+
+The functions are not exported as default, so you can import them in one of the following ways:
+```
+// ES6
+import { functionName } from '@ptolemy2002/react-utils';
+// CommonJS
+const { functionName } = require('@ptolemy2002/react-utils');
+```
+
+## Components
+The following components are available in the library:
+
+### Spacer
+#### Description
+A component that creates space, but doesn't do anything else. The element has a custom "spacer" class in addition to any other classes that are passed in. In addition, the width or height style is overridden by the `size` prop depending on whether the `horizontal` prop is `true`. All other props and styles are passed as-is.
+
+#### Props
+- `size` (String): The size of the space. Can be any valid CSS size value. Default is '1rem'.
+- `horizontal` (Boolean): Whether the space should be horizontal. Default is `false`.
+
+### Returns
+React Element - The spacer element, which is an empty `div`.
+
 ## Meta
 This is a React Library Created by Ptolemy2002's [cra-template-react-library](https://www.npmjs.com/package/@ptolemy2002/cra-template-react-library) template in combination with [create-react-app](https://www.npmjs.com/package/create-react-app). It contains methods of building and publishing your library to npm.
 For now, the library makes use of React 18 and does not use TypeScript.
