@@ -24,7 +24,7 @@
         "url": "https://github.com/Ptolemy2002/react-utils",
         "directory": "lib"
     },
-    "description": "Example of a React library",
+    "description": "Miscellaneous React utilities that don't fit into the other packages",
     "license": "ISC",
     "peerDependencies": {
         "@types/react": "^18.3.3",
