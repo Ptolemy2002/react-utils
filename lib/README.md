@@ -33,7 +33,6 @@ These should be installed in order to use the library, as npm does not automatic
 - @types/react-dom: ^18.3.0
 - react: ^18.3.1
 - react-dom: ^18.3.1
-- clsx: ^2.1.1
 
 ## Commands
 The following commands exist in the project:

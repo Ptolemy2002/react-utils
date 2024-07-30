@@ -6,7 +6,7 @@
         "index.js"
     ],
     "scripts": {
-        "build": "esbuild src/index.js --bundle --format=cjs --outfile=index.js --loader:.js=jsx --external:react --external:react-dom --external:@types/react --external:@types/react-dom --external:clsx",
+        "build": "esbuild src/index.js --bundle --format=cjs --outfile=index.js --loader:.js=jsx --external:react --external:react-dom --external:@types/react --external:@types/react-dom",
         "postinstall": "npx typesync",
         "uninstall": "bash ./scripts/uninstall.sh",
         "reinstall": "bash ./scripts/reinstall.sh",
@@ -30,10 +30,10 @@
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "clsx": "^2.1.1"
+        "react-dom": "^18.3.1"
     },
     "devDependencies": {
+        "clsx": "^2.1.1",
         "esbuild": "^0.23.0"
     }
 }
