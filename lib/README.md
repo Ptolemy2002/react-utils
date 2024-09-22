@@ -23,6 +23,20 @@ A component that creates space, but doesn't do anything else. The element has a 
 ### Returns
 React Element - The spacer element, which is an empty `div`.
 
+## Functions
+The following functions are available in the library:
+
+### partialMemo
+#### Description
+An extension to `React.memo` that allows re-render only when specific props change (or conditions are met) instead of the default behavior of comparing all props.
+
+#### Parameters
+- `component` (React Component): The component to memoize.
+- `deps` (Array): An array containing items that can either be a string name of the prop to rerender when changed, or a function that returns `false` if the component should rerender, given a first argument of the old props and a second argument of the new props. This may seem counterintuitive, but it is consistent with [how React.memo works](https://react.dev/reference/react/memo#:~:text=It%20should%20return%20true%20only%20if%20the%20new%20props%20would%20result%20in%20the%20same%20output%20as%20the%20old%20props%3B%20otherwise%20it%20should%20return%20false.). If not specified, this argument defaults to an empty array, meaning the component will not rerender regardless of prop changes.
+
+### Returns
+React Component - A new component that is equivalent to the input component, but with the memoization behavior described above.
+
 ## Meta
 This is a React Library Created by Ptolemy2002's [cra-template-react-library](https://www.npmjs.com/package/@ptolemy2002/cra-template-react-library) template in combination with [create-react-app](https://www.npmjs.com/package/create-react-app). It contains methods of building and publishing your library to npm.
 For now, the library makes use of React 18 and does not use TypeScript.
