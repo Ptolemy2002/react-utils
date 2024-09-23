@@ -32,7 +32,7 @@ An extension to `React.memo` that allows re-render only when specific props chan
 
 #### Parameters
 - `component` (React Component): The component to memoize.
-- `deps` (Array): An array containing items that can either be a string name of the prop to rerender when changed, or a function that returns `false` if the component should rerender, given a first argument of the old props and a second argument of the new props. This may seem counterintuitive, but it is consistent with [how React.memo works](https://react.dev/reference/react/memo#:~:text=It%20should%20return%20true%20only%20if%20the%20new%20props%20would%20result%20in%20the%20same%20output%20as%20the%20old%20props%3B%20otherwise%20it%20should%20return%20false.). If not specified, this argument defaults to an empty array, meaning the component will not rerender on any prop change.
+- `deps` (Array): An array containing items that can either be a string name of the prop to rerender when changed, or a function that returns `false` if the component should rerender, given a first argument of the old props, a second argument of the new props, and a third argument that is a function simply comparing two values shallowly. This may seem counterintuitive, but it is consistent with [how React.memo works](https://react.dev/reference/react/memo#:~:text=It%20should%20return%20true%20only%20if%20the%20new%20props%20would%20result%20in%20the%20same%20output%20as%20the%20old%20props%3B%20otherwise%20it%20should%20return%20false.). If not specified, this argument defaults to an empty array, meaning the component will not rerender on any prop change.
 
 ### Returns
 React Component - A new component that is equivalent to the input component, but with the memoization behavior described above.

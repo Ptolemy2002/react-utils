@@ -46,7 +46,7 @@ function App() {
 const RenderingChild = partialMemo(() => {
     console.log("RenderingChild render");
     return <p>Look in the console to see how often the RenderingChild component re-renders.</p>;
-}, ["value", (_, { other }) => other !== 3]); // The first argument would be the previous props, but we don't need it.
+}, ["value", ({ other: oldOther}, { other: newOther }, _default) => _default(oldOther, newOther) || newOther !== 3]);
 // The function returns true if a re-render is NOT needed. This may seem counterintuitive, but it is consistent with how
 // React.memo works.
 
