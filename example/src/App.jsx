@@ -4,6 +4,7 @@ import { Spacer, partialMemo } from "@ptolemy2002/react-utils";
 function App() {
     const [value, setValue] = useState(0);
     const [other, setOther] = useState(0);
+    const [childToggle, setChildToggle] = useState(0);
 
     return (
         <div className="App p-3">
@@ -37,8 +38,28 @@ function App() {
                 // never re-render, even if the props change.
             }
             <NonRenderingChild value={value} other={other} otherArray={[]} />
+
+            <ChildWithChildren>
+                {
+                    childToggle === 0 ? 
+                        <p>ChildWithChildren 1</p>
+                    : childToggle === 1 ?
+                        <NormalChild />
+                    : childToggle === 2 ?
+                        <ChildWithChildren>
+                            <p>ChildWithChildren 2</p>
+                        </ChildWithChildren>
+                    : childToggle === 3 ?
+                        <ChildWithChildren>
+                            <p>ChildWithChildren 3</p>
+                        </ChildWithChildren>
+                    : null
+                }
+            </ChildWithChildren>
+
             <button onClick={() => setValue((prev) => prev + 1)}>Change Value</button>
             <button onClick={() => setOther((prev) => prev + 1)}>Change Other</button>
+            <button onClick={() => setChildToggle((prev) => {if (++prev === 4) return 0; return prev;})}>Toggle Child</button>
         </div>
     );
 }
@@ -46,7 +67,7 @@ function App() {
 const RenderingChild = partialMemo(() => {
         console.log("RenderingChild render");
         return <p>Look in the console to see how often the RenderingChild component re-renders.</p>;
-    }, ["value", ({ other: oldOther}, { other: newOther }, _default) => _default(oldOther, newOther) || newOther !== 3],
+    }, ["value", (_, { other }, _default) => _default("other") || other !== 3],
     // The function returns true if a re-render is NOT needed. This may seem counterintuitive, but it is consistent with how
     // React.memo works.
     "RenderingChild" // Optional display name for the component
@@ -57,5 +78,14 @@ const NonRenderingChild = partialMemo(() => {
     console.log("NonRenderingChild render");
     return <p>Look in the console to see how often the NonRenderingChild component re-renders.</p>;
 }, [], "NonRenderingChild");
+
+function NormalChild() {
+    return null;
+}
+
+const ChildWithChildren = partialMemo(({children}) => {
+    console.log("ChildWithChildren render");
+    return children;
+}, ["children"], "ChildWithChildren");
 
 export default App;

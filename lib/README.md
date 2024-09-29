@@ -28,11 +28,11 @@ The following functions are available in the library:
 
 ### partialMemo
 #### Description
-An extension to `React.memo` that allows re-render only when specific props change (or conditions are met) instead of the default behavior of comparing all props.
+An extension to `React.memo` that allows re-render only when specific props change (or conditions are met) instead of the default behavior of comparing all props. Note that the `children` prop is compared deeply, as otherwise its prescense would cause the component to rerender even if children are the same. This comparison takes keys into account, so you can use them to avoid comparisons too deep. Every other prop is compared shallowly.
 
 #### Parameters
 - `component` (React Component): The component to memoize.
-- `deps` (Array): An array containing items that can either be a string name of the prop to rerender when changed, or a function that returns `false` if the component should rerender, given a first argument of the old props, a second argument of the new props, and a third argument that is a function simply comparing two values shallowly. This may seem counterintuitive, but it is consistent with [how React.memo works](https://react.dev/reference/react/memo#:~:text=It%20should%20return%20true%20only%20if%20the%20new%20props%20would%20result%20in%20the%20same%20output%20as%20the%20old%20props%3B%20otherwise%20it%20should%20return%20false.). If not specified, this argument defaults to an empty array, meaning the component will not rerender on any prop change.
+- `deps` (Array): An array containing items that can either be a string name of the prop to rerender when changed, or a function that returns `false` if the component should rerender, given a first argument of the old props, a second argument of the new props, and a third argument that is a function comparing the specified prop with the default method. This may seem counterintuitive, but it is consistent with [how React.memo works](https://react.dev/reference/react/memo#:~:text=It%20should%20return%20true%20only%20if%20the%20new%20props%20would%20result%20in%20the%20same%20output%20as%20the%20old%20props%3B%20otherwise%20it%20should%20return%20false.). If not specified, this argument defaults to an empty array, meaning the component will not rerender on any prop change.
 - `displayName` (String | undefined): The display name of the component. If not specified, this argument defaults to the display name of the input component plus a suffix of '(Memo)' to indicate that the component is memoized.
 
 ### Returns
