@@ -5,6 +5,7 @@ function App() {
     const [value, setValue] = useState(0);
     const [other, setOther] = useState(0);
     const [childToggle, setChildToggle] = useState(0);
+    console.log("App render");
 
     return (
         <div className="App p-3">
@@ -39,27 +40,19 @@ function App() {
             }
             <NonRenderingChild value={value} other={other} otherArray={[]} />
 
-            <ChildWithChildren>
+            <ChildWithChildren renderDeps={[childToggle]}>
                 {
                     childToggle === 0 ? 
                         <p>ChildWithChildren 1</p>
                     : childToggle === 1 ?
-                        <NormalChild />
-                    : childToggle === 2 ?
-                        <ChildWithChildren>
-                            <p>ChildWithChildren 2</p>
-                        </ChildWithChildren>
-                    : childToggle === 3 ?
-                        <ChildWithChildren>
-                            <p>ChildWithChildren 3</p>
-                        </ChildWithChildren>
+                        <p>ChildWithChildren 2</p>
                     : null
                 }
             </ChildWithChildren>
 
             <button onClick={() => setValue((prev) => prev + 1)}>Change Value</button>
             <button onClick={() => setOther((prev) => prev + 1)}>Change Other</button>
-            <button onClick={() => setChildToggle((prev) => {if (++prev === 4) return 0; return prev;})}>Toggle Child</button>
+            <button onClick={() => setChildToggle((prev) => {if (++prev === 2) return 0; return prev;})}>Toggle Child</button>
         </div>
     );
 }
@@ -78,10 +71,6 @@ const NonRenderingChild = partialMemo(() => {
     console.log("NonRenderingChild render");
     return <p>Look in the console to see how often the NonRenderingChild component re-renders.</p>;
 }, [], "NonRenderingChild");
-
-function NormalChild() {
-    return null;
-}
 
 const ChildWithChildren = partialMemo(({children}) => {
     console.log("ChildWithChildren render");

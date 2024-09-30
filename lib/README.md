@@ -28,7 +28,11 @@ The following functions are available in the library:
 
 ### partialMemo
 #### Description
-An extension to `React.memo` that allows re-render only when specific props change (or conditions are met) instead of the default behavior of comparing all props. Note that the `children` prop is compared deeply, as otherwise its prescense would cause the component to rerender even if children are the same. This comparison takes keys into account, so you can use them to avoid comparisons too deep. Every other prop is compared shallowly.
+An extension to `React.memo` that allows re-render only when specific props change (or conditions are met) instead of the default behavior of comparing all props.
+
+Note that the `children` prop is pointless to specify, as it will always return `true` since it would cause unecessary re-renders otherwise. The returned memoized component will take a prop called `renderDeps` with an array type that will not be passed to the original component, but will be used to allow an owner to specify additional dependencies that should trigger a re-render. `renderProps` was initially introduced to calculate when children change without doing a deep comparison, but it can be used for any value that should trigger a re-render when it changes.
+
+The parent should add any values the `children` depend on to this array, the array should never change length, and a new reference should be created every time the prop is passed. A falsy `renderProps` value will cause the component to re-render every time the parent does, functionally equivalent to an un-memoized component. It is an empty array by default.
 
 #### Parameters
 - `component` (React Component): The component to memoize.
