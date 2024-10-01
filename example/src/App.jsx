@@ -35,11 +35,17 @@ function App() {
             <RenderingChild value={value} other={other} otherArray={[]} />
             
             {
-                // The NonRenderingChild component is memoized with an empty equality check, so it should
+                // The NonRenderingChild component is memoized with an empty deps array, so it should
                 // never re-render, even if the props change.
             }
             <NonRenderingChild value={value} other={other} otherArray={[]} />
 
+            {
+                // The ChildWithChildren component is memoized with the children prop, but children
+                // prop changes don't cause a re-render according to the default behavior. Therefore,
+                // we add childToggle as a render dependency to force a re-render when the childToggle
+                // state changes, as that means the children have also changed.
+            }
             <ChildWithChildren renderDeps={[childToggle]}>
                 {
                     childToggle === 0 ? 
