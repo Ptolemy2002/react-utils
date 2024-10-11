@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { Spacer, partialMemo } from "@ptolemy2002/react-utils";
 
 function App() {
@@ -63,7 +63,14 @@ function App() {
     );
 }
 
-const RenderingChild = partialMemo(() => {
+type Props = {
+    value?: number,
+    other?: number,
+    otherArray?: any[],
+    children?: ReactNode
+};
+
+const RenderingChild = partialMemo<Props>(() => {
         console.log("RenderingChild render");
         return <p>Look in the console to see how often the RenderingChild component re-renders.</p>;
     }, ["value", (_, { other }, _default) => _default("other") || other !== 3],
@@ -73,12 +80,12 @@ const RenderingChild = partialMemo(() => {
 );
 
 
-const NonRenderingChild = partialMemo(() => {
+const NonRenderingChild = partialMemo<Props>(() => {
     console.log("NonRenderingChild render");
     return <p>Look in the console to see how often the NonRenderingChild component re-renders.</p>;
 }, [], "NonRenderingChild");
 
-const ChildWithChildren = partialMemo(({children}) => {
+const ChildWithChildren = partialMemo<Props>(({children}) => {
     console.log("ChildWithChildren render");
     return children;
 }, ["children"], "ChildWithChildren");
