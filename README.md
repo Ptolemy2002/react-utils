@@ -67,13 +67,11 @@ These should be installed in order to use the library, as npm does not automatic
 ## Commands
 The following commands exist in the project:
 
-- `npm run uninstall` - Uninstalls all dependencies for the library
-- `npm run reinstall` - Uninstalls and then Reinstalls all dependencies for the library
-- `npm run example-uninstall` - Uninstalls all dependencies for the example app
-- `npm run example-install` - Installs all dependencies for the example app
-- `npm run example-reinstall` - Uninstalls and then Reinstalls all dependencies for the example app
-- `npm run example-start` - Starts the example app after building the library
 - `npm run build` - Builds the library
+- `npm run dev` - Starts the development server
+- `npm run lint` - Lints the project
+- `npm run uninstall` - Uninstalls all dependencies for the library and clears the cache
+- `npm run reinstall` - Uninstalls, clears the cache, and then reinstalls all dependencies for the library
 - `npm run release` - Publishes the library to npm without changing the version
 - `npm run release-patch` - Publishes the library to npm with a patch version bump
 - `npm run release-minor` - Publishes the library to npm with a minor version bump
