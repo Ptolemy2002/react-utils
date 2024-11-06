@@ -52,7 +52,7 @@ The parent should add any values the `children` depend on to this array and a ne
 #### Parameters
 - `component` (`React.FunctionComponent<P>`): The component to memoize.
 - `deps` (`Dep<P>[]`): An array containing items that can either be a string name of the prop to rerender when changed, or a function that returns `false` if the component should rerender, given a first argument of the old props, a second argument of the new props, and a third argument that is a function comparing the specified prop with the default method. This may seem counterintuitive, but it is consistent with [how React.memo works](https://react.dev/reference/react/memo#:~:text=It%20should%20return%20true%20only%20if%20the%20new%20props%20would%20result%20in%20the%20same%20output%20as%20the%20old%20props%3B%20otherwise%20it%20should%20return%20false.). If not specified, this argument defaults to an empty array, meaning the component will not rerender on any prop change.
-- `displayName` (`string?`): The display name of the component. If not specified, this argument defaults to the display name of the input component plus a suffix of '(Memo)' to indicate that the component is memoized.
+- `_displayName` (`string?`): The display name of the component. If not specified, this argument defaults to the display name of the input component, whatever that may be.
 
 ### Returns
 `MemoExoticComponent<FunctionComponent<P & { renderDeps?: any[] }>>` - A memoized version of the input component that only re-renders when the specified props change or any of the `renderDeps` specified by the parent change.
