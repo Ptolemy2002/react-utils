@@ -1,4 +1,4 @@
-import { memo, FunctionComponent, MemoExoticComponent, CSSProperties, HTMLAttributes, ReactElement } from "react";
+import { memo, FunctionComponent, MemoExoticComponent, CSSProperties, HTMLAttributes, ReactElement, ReactNode } from "react";
 import isCallable from "is-callable";
 import clsx, { ClassValue } from "clsx";
 
@@ -64,3 +64,5 @@ export const Spacer = memo(function({ size = "1rem", horizontal = false, style={
     return <div className={clsx("spacer", className)} style={{ ...style, [keyName]: size }} {...props} />;
 });
 Spacer.displayName = "Spacer";
+
+export type PropsWithCustomChildren<P, C extends Record<string, ReactNode>> = P & { children?: Partial<C> };

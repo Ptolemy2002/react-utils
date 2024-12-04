@@ -1,5 +1,5 @@
 import { useState, ReactNode } from "react";
-import { Spacer, partialMemo } from "@ptolemy2002/react-utils";
+import { PropsWithCustomChildren, Spacer, partialMemo } from "@ptolemy2002/react-utils";
 
 function App() {
     const [value, setValue] = useState(0);
@@ -59,6 +59,18 @@ function App() {
             <button onClick={() => setValue((prev) => prev + 1)}>Change Value</button>
             <button onClick={() => setOther((prev) => prev + 1)}>Change Other</button>
             <button onClick={() => setChildToggle((prev) => {if (++prev === 2) return 0; return prev;})}>Toggle Child</button>
+
+            <h2>PropsWithCustomChildren Test</h2>
+            <BodyAndTwoRows>
+                {{
+                    header: <p>Header</p>,
+                    row1: <>
+                        <p>Row</p>
+                        <p>1</p>
+                    </>,
+                    row2: <p>Row 2</p>
+                }}
+            </BodyAndTwoRows>
         </div>
     );
 }
@@ -91,3 +103,24 @@ const ChildWithChildren = partialMemo<Props>(({children}) => {
 }, ["children"], "ChildWithChildren");
 
 export default App;
+
+function BodyAndTwoRows({ children: {header, row1, row2}={} }: PropsWithCustomChildren<{}, {header: ReactNode, row1: ReactNode, row2: ReactNode}>) {
+    return (
+        <div className="container">
+            <div className="row border border-black">
+                <div className="col text-center">
+                    {header}
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col border border-black border-top-0">
+                    {row1}
+                </div>
+                <div className="col border border-black border-top-0">
+                    {row2}
+                </div>
+            </div>
+        </div>
+    );
+}

@@ -18,7 +18,44 @@ type SpacerProps = {
     style?: React.CSSProperties,
     className?: clsx.ClassValue
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "className">;
+type PropsWithCustomChildren<P, C extends Record<string, ReactNode>> = P & { children?: Partial<C> };
 ```
+
+## Type Utilities
+The following custom type utilities are available in the library:
+
+### PropsWithCustomChildren<P, C>
+#### Description
+This extends existing props with `children` that can actually have multiple "slots" within it. It allows for a nice syntax:
+```jsx
+type MyComponentProps = PropsWithCustomChildren<{
+    prop1: string,
+    prop2: number
+}, {
+    slot1: ReactNode,
+    slot2: ReactNode
+}>;
+
+const MyComponent: FC<MyComponentProps> = ({ prop1, prop2, children }) => {
+    return (
+        <div>
+            {children.slot1}
+            {children.slot2}
+        </div>
+    );
+};
+
+<MyComponent prop1="Hello" prop2={42}>
+    {{
+        slot1: <div>Slot 1</div>,
+        slot2: <div>Slot 2</div>
+    }}
+</MyComponent>
+```
+
+#### Parameters
+- `P` (`any`): The props object to extend.
+- `C` (`Record<string, ReactNode>`): The object containing the custom children and their types.
 
 ## Components
 The following components are available in the library:
