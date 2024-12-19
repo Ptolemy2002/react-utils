@@ -32,7 +32,8 @@ export default tseslint.config(
       ],
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
-      "@typescript-eslint/no-empty-object-type": "off"
+      "@typescript-eslint/no-empty-object-type": "off",
+      "react-refresh/only-export-components": "off",
     },
   }
 );

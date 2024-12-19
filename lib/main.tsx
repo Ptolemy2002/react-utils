@@ -1,4 +1,4 @@
-import { memo, FunctionComponent, MemoExoticComponent, CSSProperties, HTMLAttributes, ReactElement, ReactNode } from "react";
+import { memo, FunctionComponent, MemoExoticComponent, CSSProperties, HTMLAttributes, ReactElement, ReactNode, useState, useCallback, SetStateAction } from "react";
 import isCallable from "is-callable";
 import clsx, { ClassValue } from "clsx";
 
@@ -66,3 +66,43 @@ export const Spacer = memo(function({ size = "1rem", horizontal = false, style={
 Spacer.displayName = "Spacer";
 
 export type PropsWithCustomChildren<P, C extends Record<string, ReactNode>> = P & { children?: Partial<C> };
+
+export function usePersistentState<T>(
+    key: string,
+    defaultValue: T,
+    errorHandling?: (error: unknown) => T | undefined
+): [T, (value: SetStateAction<T>) => void, () => void] {
+    const [state, setState] = useState<T>(() => {
+        const storedValue = localStorage.getItem(key);
+        if (storedValue !== null) {
+            try {
+                return JSON.parse(storedValue) as T;
+            } catch (error) {
+                if (isCallable(errorHandling)) {
+                    const errorResult = errorHandling(error);
+                    if (errorResult !== undefined) return errorResult;
+                }
+                console.error("Unhandled error parsing value", storedValue, "from localStorage:", error);
+                throw error;
+            }
+        }
+        return defaultValue;
+    });
+
+    const setPersistentState = useCallback((value: SetStateAction<T>) => {
+        setState((prevState) => {
+            const newState = isCallable(value) ? value(prevState) : value;
+            localStorage.setItem(key, JSON.stringify(newState));
+            return newState;
+        });
+    }, [key]);
+
+    const clearPersistentState = useCallback(() => {
+        setState(() => {
+            localStorage.removeItem(key);
+            return defaultValue;
+        })
+    }, [key, defaultValue]);
+
+    return [state, setPersistentState, clearPersistentState];
+}

@@ -57,6 +57,21 @@ const MyComponent: FC<MyComponentProps> = ({ prop1, prop2, children }) => {
 - `P` (`any`): The props object to extend.
 - `C` (`Record<string, ReactNode>`): The object containing the custom children and their types.
 
+## Hooks
+The following hooks are available in the library:
+
+### usePersistentState<T>
+#### Description
+A hook that creates a stateful value that persists across page reloads. The value is stored in `localStorage` and is updated whenever the state changes. The value is retrieved from `localStorage` when the hook is first called, and the initial value is used if the value is not found. Note that a value of `null` indicates that the value was not found in `localStorage`, so that should not be part of the valid state type.
+
+#### Parameters
+- `key` (`string`): The key to use in `localStorage`.
+- `defaultValue` (`T`): The default value to use if the value is not found in `localStorage`.
+- `errorHandling?` (`(error: unknown) => T | undefined`): A function to call when an error occurs. You can return a value to use in place of the error, or `undefined` to have the hook throw it. If not specified, the hook will always throw the error.
+
+#### Returns
+`[T, (value: SetStateAction<T>) => void, () => void]` - A list containing the current value, a function to update the value, and a function to clear the value from `localStorage`, removing the key and applying the `defaultValue` to state.
+
 ## Components
 The following components are available in the library:
 

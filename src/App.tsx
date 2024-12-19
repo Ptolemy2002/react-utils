@@ -1,10 +1,12 @@
 import { useState, ReactNode } from "react";
-import { PropsWithCustomChildren, Spacer, partialMemo } from "@ptolemy2002/react-utils";
+import { PropsWithCustomChildren, Spacer, partialMemo, usePersistentState } from "@ptolemy2002/react-utils";
 
 function App() {
     const [value, setValue] = useState(0);
     const [other, setOther] = useState(0);
     const [childToggle, setChildToggle] = useState(0);
+    const [persistentValue, setPersistentValue, clearPersistentValue] = usePersistentState("persistentValue", 0);
+
     console.log("App render");
 
     return (
@@ -71,6 +73,12 @@ function App() {
                     row2: <p>Row 2</p>
                 }}
             </BodyAndTwoRows>
+
+            <h2>Persistent State Test</h2>
+            <p>Persistent Value: {persistentValue}</p>
+            <button onClick={() => setPersistentValue((prev: number) => prev + 1)}>Increment Persistent Value</button>
+            <button onClick={() => setPersistentValue((prev: number) => prev - 1)}>Decrement Persistent Value</button>
+            <button onClick={() => {clearPersistentValue()}}>Reset Persistent Value</button>
         </div>
     );
 }
