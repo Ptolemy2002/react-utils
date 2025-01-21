@@ -4,13 +4,13 @@ import clsx, { ClassValue } from "clsx";
 
 export type Dep<P> = keyof P | ((prev: P, next: P, defaultBehavior: (prop: keyof P) => boolean) => boolean);
 
-export function partialMemo<P>(E: FunctionComponent<P>, deps: Dep<P>[] = [], _displayName?: string)
+export function partialMemo<P>(E: FunctionComponent<P>, deps: Dep<P>[] = [], _displayName?: string, passRenderDeps = false)
     : MemoExoticComponent<FunctionComponent<P & { renderDeps?: any[] }>> {
     type PWithRenderDeps = P & { renderDeps?: any[] };
     const displayName = _displayName ?? E.displayName ?? E.name;
     
     const MemoWrapper = ({...props}: PWithRenderDeps) => {
-        delete props.renderDeps;
+        if (!passRenderDeps) delete props.renderDeps;
         return <E {...props} />;
     };
     MemoWrapper.displayName = "MemoWrapper(" + displayName + ")";
