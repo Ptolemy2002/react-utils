@@ -24,6 +24,8 @@ export function partialMemo<P>(E: FunctionComponent<P>, deps: Dep<P>[] = [], _di
 
         // Falsy renderDeps means always re-render.
         if (!nextRenderDeps) return false;
+        // Rerender if one is falsy and the other is not.
+        if (!prevRenderDeps) return false;
 
         // If the length of the renderDeps array changes, assume a re-render is needed.
         if (prevRenderDeps.length !== nextRenderDeps.length) return false;
