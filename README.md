@@ -95,7 +95,7 @@ The following functions are available in the library:
 #### Description
 An extension to `React.memo` that allows re-render only when specific props change (or conditions are met) instead of the default behavior of comparing all props.
 
-Note that the `children` prop is pointless to specify, as it will always return `true` since it would cause unecessary re-renders otherwise. The returned memoized component will take a prop called `renderDeps` with an array type that will not be passed to the original component, but will be used to allow an owner to specify additional dependencies that should trigger a re-render. `renderDeps` was initially introduced to calculate when children change without doing a deep comparison, but it can be used for any value that should trigger a re-render when it changes.
+Note that the `children` prop is pointless to specify, as it will always return `true` since it would cause unecessary re-renders otherwise. The returned memoized component will take a prop called `renderDeps` with an array type that will not be passed to the original component by default, but will be used to allow an owner to specify additional dependencies that should trigger a re-render. `renderDeps` was initially introduced to calculate when children change without doing a deep comparison, but it can be used for any value that should trigger a re-render when it changes.
 
 The parent should add any values the `children` depend on to this array and a new reference should be created every time the prop is passed. A falsy `renderDeps` value will cause the component to re-render every time the parent does, functionally equivalent to an un-memoized component. It is an empty array by default.
 
@@ -108,7 +108,7 @@ The parent should add any values the `children` depend on to this array and a ne
 - `passRenderDeps` (`boolean?`): Whether to pass the `renderDeps` prop to the component. If not specified, this argument defaults to `false`.
 
 ### Returns
-`MemoExoticComponent<FunctionComponent<P & { renderDeps?: any[] }>>` - A memoized version of the input component that only re-renders when the specified props change or any of the `renderDeps` specified by the parent change.
+`MemoExoticComponent<FunctionComponent<P & { renderDeps?: any[] | false | null }>>` - A memoized version of the input component that only re-renders when the specified props change or any of the `renderDeps` specified by the parent change.
 
 ## Peer Dependencies
 These should be installed in order to use the library, as npm does not automatically add peer dependencies to your project.
