@@ -5,8 +5,8 @@ import clsx, { ClassValue } from "clsx";
 export type Dep<P> = keyof P | ((prev: P, next: P, defaultBehavior: (prop: keyof P) => boolean) => boolean);
 
 export function partialMemo<P>(E: FunctionComponent<P>, deps: Dep<P>[] = [], _displayName?: string, passRenderDeps = false)
-    : MemoExoticComponent<FunctionComponent<P & { renderDeps?: any[] }>> {
-    type PWithRenderDeps = P & { renderDeps?: any[] };
+    : MemoExoticComponent<FunctionComponent<P & { renderDeps?: any[] | null | false }>> {
+    type PWithRenderDeps = P & { renderDeps?: any[] | null | false };
     const displayName = _displayName ?? E.displayName ?? E.name;
     
     const MemoWrapper = ({...props}: PWithRenderDeps) => {
