@@ -13,7 +13,7 @@ const { functionName } = require('@ptolemy2002/react-utils');
 ```typescript
 type Dep<P> = keyof P | ((prev: P, next: P, defaultBehavior: (prop: keyof P) => boolean) => boolean);
 type SpacerProps = {
-    size?: string,
+    size?: string | number,
     horizontal?: boolean,
     style?: React.CSSProperties,
     className?: clsx.ClassValue
@@ -72,6 +72,24 @@ A hook that creates a stateful value that persists across page reloads. The valu
 #### Returns
 `[T, (value: SetStateAction<T>) => void, () => void]` - A list containing the current value, a function to update the value, and a function to clear the value from `localStorage`, removing the key and applying the `defaultValue` to state.
 
+### useDebugRenderPrint
+#### Description
+A hook that prints debug information about component renders. It outputs the time since last mount and cleanup messages.
+
+#### Parameters
+- `identifier` (`string`): A string to identify the component in debug messages.
+- `enabled` (`boolean`): Whether to enable debug printing. Default is `true`.
+
+### createDebugHook
+#### Description
+Creates a custom debug hook that tracks render count and prints debug information.
+
+#### Parameters
+- `identifier` (`string`): A string to identify the component in debug messages.
+
+#### Returns
+A function that accepts an optional `enabled` parameter (defaults to `true`) and tracks render counts while printing debug information.
+
 ## Components
 The following components are available in the library:
 
@@ -97,7 +115,7 @@ An extension to `React.memo` that allows re-render only when specific props chan
 
 Note that the `children` prop is pointless to specify, as it will always return `true` since it would cause unecessary re-renders otherwise. The returned memoized component will take a prop called `renderDeps` with an array type that will not be passed to the original component by default, but will be used to allow an owner to specify additional dependencies that should trigger a re-render. `renderDeps` was initially introduced to calculate when children change without doing a deep comparison, but it can be used for any value that should trigger a re-render when it changes.
 
-The parent should add any values the `children` depend on to this array and a new reference should be created every time the prop is passed. A falsy `renderDeps` value will cause the component to re-render every time the parent does, functionally equivalent to an un-memoized component. It is an empty array by default.
+The parent should add any values the `children` depend on to this array and a new reference should be created every time the prop is passed. A falsy `renderDeps` value (including `false` or `null`) will cause the component to re-render every time the parent does, functionally equivalent to an un-memoized component. It is an empty array by default.
 
 `P` is the type of the props object that the component takes.
 
@@ -108,7 +126,7 @@ The parent should add any values the `children` depend on to this array and a ne
 - `passRenderDeps` (`boolean?`): Whether to pass the `renderDeps` prop to the component. If not specified, this argument defaults to `false`.
 
 ### Returns
-`MemoExoticComponent<FunctionComponent<P & { renderDeps?: any[] | false | null }>>` - A memoized version of the input component that only re-renders when the specified props change or any of the `renderDeps` specified by the parent change.
+`MemoExoticComponent<FunctionComponent<P & { renderDeps?: unknown[] | false | null }>>` - A memoized version of the input component that only re-renders when the specified props change or any of the `renderDeps` specified by the parent change.
 
 ## Peer Dependencies
 These should be installed in order to use the library, as npm does not automatically add peer dependencies to your project.
