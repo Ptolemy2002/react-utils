@@ -170,25 +170,43 @@ export function usePersistentState<T>(
   return [state, setPersistentState, clearPersistentState];
 }
 
-export function useDebugRenderPrint(identifier: string, enabled = true) {
+export type DebugHookFeatures = {
+  rendering?: boolean;
+  effectCleanup?: boolean;
+  secondsSinceMount?: boolean;
+};
+
+export type DebugHook = (
+  enabled?: boolean,
+  features?: DebugHookFeatures
+) => void;
+
+export function useDebugRenderPrint(
+  identifier: string, enabled = true,
+  {
+    effectCleanup = true,
+    secondsSinceMount = true,
+  }: Pick<DebugHookFeatures, "effectCleanup" | "secondsSinceMount"> = {}
+) {
   const [seconds, setSeconds] = useState(0);
-  if (enabled)
+  if (enabled && secondsSinceMount) {
     console.debug(`${identifier}, seconds since last mount: ${seconds}`);
+  }
 
   useEffect(() => {
     const timer = setInterval(() => setSeconds(seconds + 1), 1000);
     return () => {
-      if (enabled) console.debug(`${identifier}: #useEffect cleanup`);
+      if (enabled &&  effectCleanup) console.debug(`${identifier}: #useEffect cleanup`);
       clearInterval(timer);
     };
-  }, [seconds]);
+  }, [enabled, identifier, seconds, effectCleanup]);
 }
 
-export function createDebugHook(identifier: string) {
+export function createDebugHook(identifier: string): DebugHook {
   let count = 0;
-  return (enabled = true) => {
+  return (enabled = true, {rendering=true, ...otherFeatures}={}) => {
     count++;
-    if (enabled) console.debug(`${identifier}: rendering (total: #${count}`);
-    useDebugRenderPrint(identifier, enabled);
+    if (enabled && rendering) console.debug(`${identifier}: rendering (total: #${count})`);
+    useDebugRenderPrint(identifier, enabled, otherFeatures);
   };
 }

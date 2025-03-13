@@ -19,6 +19,12 @@ type SpacerProps = {
     className?: clsx.ClassValue
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "className">;
 type PropsWithCustomChildren<P, C extends Record<string, ReactNode>> = P & { children?: Partial<C> };
+type DebugHookFeatures = {
+    rendering?: boolean;
+    effectCleanup?: boolean;
+    secondsSinceMount?: boolean;
+};
+type DebugHook = (enabled?: boolean, features?: DebugHookFeatures) => void;
 ```
 
 ## Type Utilities
@@ -79,6 +85,9 @@ A hook that prints debug information about component renders. It outputs the tim
 #### Parameters
 - `identifier` (`string`): A string to identify the component in debug messages.
 - `enabled` (`boolean`): Whether to enable debug printing. Default is `true`.
+- `features` (`Pick<DebugHookFeatures, "effectCleanup" | "secondsSinceMount">`): Features to enable/disable.
+  - `effectCleanup` (`boolean`): Whether to print cleanup messages. Default is `true`.
+  - `secondsSinceMount` (`boolean`): Whether to print time since last mount. Default is `true`.
 
 ### createDebugHook
 #### Description
@@ -88,7 +97,12 @@ Creates a custom debug hook that tracks render count and prints debug informatio
 - `identifier` (`string`): A string to identify the component in debug messages.
 
 #### Returns
-A function that accepts an optional `enabled` parameter (defaults to `true`) and tracks render counts while printing debug information.
+A function that accepts:
+- `enabled` (`boolean`): Whether to enable debug printing. Default is `true`.
+- `features` (`DebugHookFeatures`): Features to enable/disable.
+  - `rendering` (`boolean`): Whether to print rendering messages. Default is `true`.
+  - `effectCleanup` (`boolean`): Whether to print cleanup messages. Default is `true`.
+  - `secondsSinceMount` (`boolean`): Whether to print time since last mount. Default is `true`.
 
 ## Components
 The following components are available in the library:
@@ -125,7 +139,7 @@ The parent should add any values the `children` depend on to this array and a ne
 - `_displayName` (`string?`): The display name of the component. If not specified, this argument defaults to the display name of the input component, whatever that may be.
 - `passRenderDeps` (`boolean?`): Whether to pass the `renderDeps` prop to the component. If not specified, this argument defaults to `false`.
 
-### Returns
+#### Returns
 `MemoExoticComponent<FunctionComponent<P & { renderDeps?: unknown[] | false | null }>>` - A memoized version of the input component that only re-renders when the specified props change or any of the `renderDeps` specified by the parent change.
 
 ## Peer Dependencies
