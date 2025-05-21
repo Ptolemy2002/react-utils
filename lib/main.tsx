@@ -10,6 +10,7 @@ import {
   useCallback,
   SetStateAction,
   useEffect,
+  Dispatch,
 } from "react";
 import isCallable from "is-callable";
 import clsx, { ClassValue } from "clsx";
@@ -209,4 +210,18 @@ export function createDebugHook(identifier: string): DebugHook {
     if (enabled && rendering) console.debug(`${identifier}: rendering (total: #${count})`);
     useDebugRenderPrint(identifier, enabled, otherFeatures);
   };
+}
+
+// Based on https://www.npmjs.com/package/with-react
+export type WithStateProps<T> = {
+  init?: T | (() => T);
+  children: (state: T | undefined, setState: Dispatch<SetStateAction<T | undefined>>) => ReactNode;
+};
+
+export function WithState<T>({
+  children,
+  init
+}: WithStateProps<T>) {
+  const [state, setState] = useState(init);
+  return children(state, setState);
 }

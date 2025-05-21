@@ -25,6 +25,10 @@ type DebugHookFeatures = {
     secondsSinceMount?: boolean;
 };
 type DebugHook = (enabled?: boolean, features?: DebugHookFeatures) => void;
+type WithStateProps<T> = {
+  init?: T | (() => T);
+  children: (state: T | undefined, setState: Dispatch<SetStateAction<T | undefined>>) => ReactNode;
+};
 ```
 
 ## Type Utilities
@@ -119,6 +123,17 @@ A component that creates space, but doesn't do anything else. The element has a 
 
 ### Returns
 `ReactElement` - A `div` element that creates empty space.
+
+### WithState<T>
+#### Description
+Based on https://www.npmjs.com/package/with-react, this is a higher-order component that takes an initial state exactly like `useState` and a `children` prop that will be a funtion that receives both the current state and a function to update the state. This effectively allows you to create stateful components using JSX syntax rather than creating a full new component. See the original page for specific use cases.
+
+#### Parameters
+- `init?` (`T | (() => T)`): The initial state. Can be a value or a function that returns a value.
+- `children` (`(state: T | undefined, setState: Dispatch<SetStateAction<T | undefined>>) => ReactNode`): A function that receives the current state and a function to update the state. This function will be called on every render, and its return value will be passed to the component as `children`.
+
+#### Returns
+`ReactNode` - A function that receives the current state and a function to update the state. This function will be called with the current state and a function to update the state.
 
 ## Functions
 The following functions are available in the library:
