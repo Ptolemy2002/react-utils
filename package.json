@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "postinstall": "npx typesync",
+    "test": "vitest",
     "uninstall": "bash ./scripts/uninstall.sh",
     "reinstall": "bash ./scripts/reinstall.sh",
     "release": "bash ./scripts/release.sh",
@@ -28,13 +29,15 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/eslint__js": "~8.42.3",
     "@types/is-callable": "~1.1.2",
     "@types/less": "~3.0.6",
     "@types/node": "^22.7.4",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.2",
+    "@vitejs/plugin-react": "^4.6.0",
     "clsx": "^2.1.1",
     "eslint": "^9.11.1",
     "eslint-plugin-react": "^7.37.1",
@@ -42,6 +45,7 @@
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
     "is-callable": "^1.2.7",
+    "jsdom": "^26.1.0",
     "less": "^4.2.0",
     "path": "^0.12.7",
     "react": "^18.3.1",
@@ -50,7 +54,8 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.7.0",
     "vite": "^5.4.8",
-    "vite-plugin-dts": "^4.2.3"
+    "vite-plugin-dts": "^4.2.3",
+    "vitest": "^3.2.4"
   },
   "exports": {
     ".": {
